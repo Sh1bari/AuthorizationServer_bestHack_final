@@ -1,4 +1,5 @@
 server:
+  forward-headers-strategy: native
   port: 8080
 spring:
   application:
@@ -12,7 +13,7 @@ spring:
       mode: always
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/Time-tracker
+    url: jdbc:postgresql://localhost:5432/Time-tracker-auth
     username: root
     password: 123
   jpa:

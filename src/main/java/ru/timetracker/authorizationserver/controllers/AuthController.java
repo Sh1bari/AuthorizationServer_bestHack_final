@@ -4,17 +4,13 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.timetracker.authorizationserver.exceptions.GeneralException;
-import ru.timetracker.authorizationserver.exceptions.GlobalAppException;
 import ru.timetracker.authorizationserver.models.models.request.RegisterDto;
 import ru.timetracker.authorizationserver.models.models.responses.RegisterUserDtoRes;
 import ru.timetracker.authorizationserver.security.AuthService;
-import ru.timetracker.authorizationserver.services.TestClient;
 import ru.timetracker.authorizationserver.utils.JwtUtil;
 
 @RestController
@@ -22,16 +18,10 @@ import ru.timetracker.authorizationserver.utils.JwtUtil;
 @Validated
 @CrossOrigin
 @SecurityRequirement(name = "bearerAuth")
-@RequestMapping("/auth")
+@RequestMapping("")
 @Tag(name = "Authorization API", description = "")
 public class AuthController {
     private final AuthService authService;
-
-    //private final TestClient testClient;
-    @GetMapping("/")
-    public ResponseEntity<?> home() {
-        throw new GeneralException(404, "Not found");
-    }
 
     @GetMapping("/register")
     public ResponseEntity<RegisterUserDtoRes> generateToken(@RequestBody @Valid RegisterDto req){
@@ -41,6 +31,10 @@ public class AuthController {
                 .body(res);
     }
 
+    @GetMapping("/test")
+    public String generateToken(){
+        return "test";
+    }
     @PostMapping("/valid")
     public Boolean validateToken(@RequestParam String token){
         return JwtUtil.validateToken(token);

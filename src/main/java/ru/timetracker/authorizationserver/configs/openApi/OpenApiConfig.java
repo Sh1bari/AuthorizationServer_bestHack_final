@@ -15,7 +15,13 @@ import org.springframework.context.annotation.Configuration;
 @OpenAPIDefinition(
         info = @Info(
                 title = "Time tracker"
-        )
+        ),
+        servers = {
+                @Server(
+                        url = "http://localhost:8111",
+                        description = "Main server"
+                )
+        }
 )
 @SecurityScheme(
         name = "bearerAuth",
