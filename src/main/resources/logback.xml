@@ -25,8 +25,9 @@
     <!-- Loggers -->
     <root level="info">
         <appender-ref ref="CONSOLE" />
+        <appender-ref ref="FILE_CONTROLLERS" />
     </root>
-    <logger name="ru.timetracker" level="error">
+    <logger name="ru.timetracker" level="warn">
         <appender-ref ref="FILE_CONTROLLERS" />
     </logger>
     <logger name="org.hibernate" level="error">
