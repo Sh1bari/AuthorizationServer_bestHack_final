@@ -2,6 +2,7 @@ package ru.timetracker.authorizationserver.utils;
 
 import io.jsonwebtoken.*;
 import lombok.*;
+import ru.timetracker.authorizationserver.models.entities.Role;
 import ru.timetracker.authorizationserver.models.entities.User;
 
 import java.io.IOException;
@@ -12,6 +13,7 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class JwtUtil {
 
@@ -58,7 +60,7 @@ public class JwtUtil {
     private static Map<String, Object> generateAccessClaims(User user){
         Map<String, Object> claims = new HashMap<>();
         claims.put("tokenType", "access");
-        claims.put("roles", List.of(user.getRoles()));
+        claims.put("roles", user.getRoles().stream().map(Role::getName).toList());
         return claims;
     }
 
