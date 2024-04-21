@@ -5,7 +5,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.timetracker.authorizationserver.exceptions.GeneralException;
+import ru.timetracker.authorizationserver.exceptions.auth.BadCredentialsExc;
 import ru.timetracker.authorizationserver.models.entities.User;
+import ru.timetracker.authorizationserver.models.models.request.LoginDto;
 import ru.timetracker.authorizationserver.models.models.request.RegisterDto;
 import ru.timetracker.authorizationserver.models.models.responses.JwtTokenDtoRes;
 import ru.timetracker.authorizationserver.models.models.responses.RegisterUserDtoRes;
@@ -44,4 +46,16 @@ public class AuthService {
             return res;
         }
     }
+    public JwtTokenDtoRes login(LoginDto req){
+        User user = userService.findByUsername(req.getUsername());
+        if(!passwordEncoder.matches(req.getPassword(), user.getPassword())){
+            throw new BadCredentialsExc();
+        }
+        JwtTokenDtoRes res = JwtTokenDtoRes.builder()
+                .access(JwtUtil.generateAccessToken(user))
+                .refresh(JwtUtil.generateRefreshToken(user))
+                .build();
+        return res;
+    }
+
 }

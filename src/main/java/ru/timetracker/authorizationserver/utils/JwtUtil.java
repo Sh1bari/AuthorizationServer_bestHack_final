@@ -51,7 +51,7 @@ public class JwtUtil {
         long nowMillis = System.currentTimeMillis();
         Date now = new Date(nowMillis);
         return Jwts.builder()
-                .setSubject(user.getUsername())
+                .setSubject(user.getId().toString())
                 .setClaims(generateAccessClaims(user))
                 .setIssuedAt(now)
                 .signWith(SignatureAlgorithm.RS256, privateKey)
@@ -69,7 +69,7 @@ public class JwtUtil {
         Date now = new Date(nowMillis);
 
         return Jwts.builder()
-                .setSubject(user.getUsername())
+                .setSubject(user.getId().toString())
                 .setClaims(generateRefreshClaims(user))
                 .setIssuedAt(now)
                 .signWith(SignatureAlgorithm.RS256, privateKey)
