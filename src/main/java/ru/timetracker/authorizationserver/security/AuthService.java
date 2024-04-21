@@ -10,14 +10,18 @@ import ru.timetracker.authorizationserver.models.models.request.RegisterDto;
 import ru.timetracker.authorizationserver.models.models.responses.JwtTokenDtoRes;
 import ru.timetracker.authorizationserver.models.models.responses.RegisterUserDtoRes;
 import ru.timetracker.authorizationserver.models.models.responses.UserDtoRes;
+import ru.timetracker.authorizationserver.services.RoleService;
 import ru.timetracker.authorizationserver.services.UserService;
 import ru.timetracker.authorizationserver.utils.JwtUtil;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class AuthService {
 
     private final UserService userService;
+    private final RoleService roleService;
     private final PasswordEncoder passwordEncoder;
 
     public RegisterUserDtoRes registerNewUser(RegisterDto req){
@@ -25,9 +29,10 @@ public class AuthService {
             throw new GeneralException(409, String.format("User with username %s exists", req.getUsername()));
         }else {
             User user = userService.saveUser(User.builder()
-                .username(req.getUsername())
-                .password(passwordEncoder.encode(req.getPassword()))
-                .build());
+                    .roles(List.of(roleService.getUserRole()))
+                    .username(req.getUsername())
+                    .password(passwordEncoder.encode(req.getPassword()))
+                    .build());
             JwtTokenDtoRes jwt = JwtTokenDtoRes.builder()
                     .access(JwtUtil.generateAccessToken(user))
                     .refresh(JwtUtil.generateRefreshToken(user))
