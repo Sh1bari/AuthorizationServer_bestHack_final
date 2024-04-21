@@ -24,7 +24,7 @@ public class AuthController {
     private final AuthService authService;
 
     @GetMapping("/register")
-    public ResponseEntity<RegisterUserDtoRes> generateToken(@RequestBody @Valid RegisterDto req){
+    public ResponseEntity<RegisterUserDtoRes> generateToken(@Valid RegisterDto req){
         RegisterUserDtoRes res = authService.registerNewUser(req);
         return ResponseEntity
                 .status(HttpStatus.OK)
