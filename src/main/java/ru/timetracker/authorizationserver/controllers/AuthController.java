@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.timetracker.authorizationserver.models.models.request.LoginDto;
+import ru.timetracker.authorizationserver.models.models.request.RefreshDto;
 import ru.timetracker.authorizationserver.models.models.request.RegisterDto;
 import ru.timetracker.authorizationserver.models.models.responses.JwtTokenDtoRes;
 import ru.timetracker.authorizationserver.models.models.responses.RegisterUserDtoRes;
@@ -41,12 +42,12 @@ public class AuthController {
                 .body(res);
     }
 
-    @GetMapping("/test")
-    public String generateToken(){
-        return "test";
+    @PostMapping("/refresh")
+    public ResponseEntity<JwtTokenDtoRes> refresh(@RequestBody @Valid RefreshDto req){
+        JwtTokenDtoRes res = authService.refresh(req);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(res);
     }
-    @PostMapping("/valid")
-    public Boolean validateToken(@RequestParam String token){
-        return JwtUtil.validateToken(token);
-    }
+
 }

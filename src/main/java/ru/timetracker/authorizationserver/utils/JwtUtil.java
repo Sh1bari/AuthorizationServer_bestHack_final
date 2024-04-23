@@ -2,6 +2,7 @@ package ru.timetracker.authorizationserver.utils;
 
 import io.jsonwebtoken.*;
 import lombok.*;
+import ru.timetracker.authorizationserver.exceptions.WrongTokenExc;
 import ru.timetracker.authorizationserver.models.entities.Role;
 import ru.timetracker.authorizationserver.models.entities.User;
 
@@ -59,6 +60,7 @@ public class JwtUtil {
     }
     private static Map<String, Object> generateAccessClaims(User user){
         Map<String, Object> claims = new HashMap<>();
+        claims.put("sub", user.getId().toString());
         claims.put("tokenType", "access");
         claims.put("roles", user.getRoles().stream().map(Role::getName).toList());
         return claims;
@@ -69,7 +71,7 @@ public class JwtUtil {
         Date now = new Date(nowMillis);
 
         return Jwts.builder()
-                .setSubject(user.getId().toString())
+                .setSubject(String.valueOf(user.getId()))
                 .setClaims(generateRefreshClaims(user))
                 .setIssuedAt(now)
                 .signWith(SignatureAlgorithm.RS256, privateKey)
@@ -78,17 +80,18 @@ public class JwtUtil {
     private static Map<String, Object> generateRefreshClaims(User user){
         Map<String, Object> claims = new HashMap<>();
         claims.put("tokenType", "refresh");
+        claims.put("sub", user.getId().toString());
         return claims;
     }
 
-    public static boolean validateToken(String token) {
+    public static Jws<Claims> getClaims(String token) {
         try {
             Jws<Claims> claimsJws = Jwts.parser()
                     .setSigningKey(publicKey)
                     .parseClaimsJws(token);
-            return true;
+            return claimsJws;
         } catch (JwtException | IllegalArgumentException e) {
-            return false;
+            throw new WrongTokenExc();
         }
     }
 }

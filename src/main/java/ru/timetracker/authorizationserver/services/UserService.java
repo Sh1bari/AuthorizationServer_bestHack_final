@@ -6,6 +6,8 @@ import ru.timetracker.authorizationserver.exceptions.users.UserNotFoundExc;
 import ru.timetracker.authorizationserver.models.entities.User;
 import ru.timetracker.authorizationserver.repositories.UserRepo;
 
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
@@ -16,6 +18,11 @@ public class UserService {
     }
     public User findByUsername(String username){
         return userRepo.findByUsername(username)
+                .orElseThrow(UserNotFoundExc::new);
+    }
+
+    public User findById(UUID id){
+        return userRepo.findById(id)
                 .orElseThrow(UserNotFoundExc::new);
     }
 

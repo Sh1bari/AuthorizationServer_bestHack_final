@@ -1,13 +1,17 @@
 package ru.timetracker.authorizationserver.security;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import lombok.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.timetracker.authorizationserver.exceptions.GeneralException;
+import ru.timetracker.authorizationserver.exceptions.WrongTokenExc;
 import ru.timetracker.authorizationserver.exceptions.auth.BadCredentialsExc;
 import ru.timetracker.authorizationserver.models.entities.User;
 import ru.timetracker.authorizationserver.models.models.request.LoginDto;
+import ru.timetracker.authorizationserver.models.models.request.RefreshDto;
 import ru.timetracker.authorizationserver.models.models.request.RegisterDto;
 import ru.timetracker.authorizationserver.models.models.responses.JwtTokenDtoRes;
 import ru.timetracker.authorizationserver.models.models.responses.RegisterUserDtoRes;
@@ -17,6 +21,7 @@ import ru.timetracker.authorizationserver.services.UserService;
 import ru.timetracker.authorizationserver.utils.JwtUtil;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -51,6 +56,20 @@ public class AuthService {
         if(!passwordEncoder.matches(req.getPassword(), user.getPassword())){
             throw new BadCredentialsExc();
         }
+        JwtTokenDtoRes res = JwtTokenDtoRes.builder()
+                .access(JwtUtil.generateAccessToken(user))
+                .refresh(JwtUtil.generateRefreshToken(user))
+                .build();
+        return res;
+    }
+
+    public JwtTokenDtoRes refresh(RefreshDto req){
+        Jws<Claims> claims = JwtUtil.getClaims(req.getRefresh());
+        if(!claims.getBody().get("tokenType").toString().equals("refresh")){
+            throw new WrongTokenExc();
+        }
+        String userId = claims.getBody().get("sub").toString();
+        User user = userService.findById(UUID.fromString(userId));
         JwtTokenDtoRes res = JwtTokenDtoRes.builder()
                 .access(JwtUtil.generateAccessToken(user))
                 .refresh(JwtUtil.generateRefreshToken(user))
