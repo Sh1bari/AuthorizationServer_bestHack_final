@@ -1,5 +1,10 @@
 package ru.timetracker.authorizationserver.controllers;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -26,6 +31,14 @@ import ru.timetracker.authorizationserver.utils.JwtUtil;
 public class AuthController {
     private final AuthService authService;
 
+    @Operation(summary = "Register")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = RegisterUserDtoRes.class))
+                    })
+    })
     @PostMapping("/register")
     public ResponseEntity<RegisterUserDtoRes> registerUser(@RequestBody @Valid RegisterDto req){
         RegisterUserDtoRes res = authService.registerNewUser(req);
@@ -34,6 +47,14 @@ public class AuthController {
                 .body(res);
     }
 
+    @Operation(summary = "Login")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = JwtTokenDtoRes.class))
+                    })
+    })
     @PostMapping("/login")
     public ResponseEntity<JwtTokenDtoRes> login(@RequestBody @Valid LoginDto req){
         JwtTokenDtoRes res = authService.login(req);
@@ -42,6 +63,14 @@ public class AuthController {
                 .body(res);
     }
 
+    @Operation(summary = "Refresh token")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = JwtTokenDtoRes.class))
+                    })
+    })
     @PostMapping("/refresh")
     public ResponseEntity<JwtTokenDtoRes> refresh(@RequestBody @Valid RefreshDto req){
         JwtTokenDtoRes res = authService.refresh(req);

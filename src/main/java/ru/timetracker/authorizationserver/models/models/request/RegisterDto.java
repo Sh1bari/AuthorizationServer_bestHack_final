@@ -11,4 +11,7 @@ public class RegisterDto {
     private String username;
     @NotBlank(message = "Password cant be blank")
     private String password;
+    private String name;
+    private String middleName;
+    private String surname;
 }

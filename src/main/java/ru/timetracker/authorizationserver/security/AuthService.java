@@ -6,10 +6,13 @@ import lombok.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.timetracker.authorizationserver.exceptions.GeneralException;
 import ru.timetracker.authorizationserver.exceptions.WrongTokenExc;
 import ru.timetracker.authorizationserver.exceptions.auth.BadCredentialsExc;
+import ru.timetracker.authorizationserver.feign.MainClient;
 import ru.timetracker.authorizationserver.models.entities.User;
+import ru.timetracker.authorizationserver.models.models.request.CreateUserDto;
 import ru.timetracker.authorizationserver.models.models.request.LoginDto;
 import ru.timetracker.authorizationserver.models.models.request.RefreshDto;
 import ru.timetracker.authorizationserver.models.models.request.RegisterDto;
@@ -30,7 +33,8 @@ public class AuthService {
     private final UserService userService;
     private final RoleService roleService;
     private final PasswordEncoder passwordEncoder;
-
+    private final MainClient mainClient;
+    @Transactional
     public RegisterUserDtoRes registerNewUser(RegisterDto req){
         if(userService.existsByUsername(req.getUsername())){
             throw new GeneralException(409, String.format("User with username %s exists", req.getUsername()));
@@ -39,6 +43,13 @@ public class AuthService {
                     .roles(List.of(roleService.getUserRole()))
                     .username(req.getUsername())
                     .password(passwordEncoder.encode(req.getPassword()))
+                    .build());
+            mainClient.registerNewUser(CreateUserDto.builder()
+                            .username(req.getUsername())
+                            .userId(user.getId())
+                            .name(req.getName())
+                            .middleName(req.getMiddleName())
+                            .surname(req.getSurname())
                     .build());
             JwtTokenDtoRes jwt = JwtTokenDtoRes.builder()
                     .access(JwtUtil.generateAccessToken(user))
