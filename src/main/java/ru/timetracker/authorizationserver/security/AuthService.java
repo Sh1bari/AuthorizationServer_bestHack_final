@@ -63,6 +63,9 @@ public class AuthService {
         }
     }
     public RegisterUserDtoRes login(LoginDto req){
+        if(userService.existsByUsername(req.getUsername())){
+            throw new BadCredentialsExc();
+        }
         User user = userService.findByUsername(req.getUsername());
         if(!passwordEncoder.matches(req.getPassword(), user.getPassword())){
             throw new BadCredentialsExc();
