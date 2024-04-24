@@ -17148,3 +17148,63 @@ com.netflix.discovery.shared.transport.TransportException: Cannot execute reques
 	at org.springframework.boot.SpringApplicationShutdownHook.run(SpringApplicationShutdownHook.java:114)
 	at java.base/java.lang.Thread.run(Thread.java:1583)
 2024-04-24 07:35:50 INFO  [SpringApplicationShutdownHook] c.netflix.discovery.DiscoveryClient - Completed shut down of DiscoveryClient
+2024-04-24 07:36:02 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-04-24 07:36:02 INFO  [main] o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 112 ms. Found 2 JPA repository interfaces.
+2024-04-24 07:36:03 INFO  [main] o.s.cloud.context.scope.GenericScope - BeanFactory id=15316d03-94a1-3390-aa9d-a34f3577eac7
+2024-04-24 07:36:03 WARN  [main] o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'org.springframework.cloud.client.loadbalancer.LoadBalancerAutoConfiguration$DeferringLoadBalancerInterceptorConfig' of type [org.springframework.cloud.client.loadbalancer.LoadBalancerAutoConfiguration$DeferringLoadBalancerInterceptorConfig] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). The currently created BeanPostProcessor [lbRestClientPostProcessor] is declared through a non-static factory method on that class; consider declaring it as static instead.
+2024-04-24 07:36:03 WARN  [main] o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'deferringLoadBalancerInterceptor' of type [org.springframework.cloud.client.loadbalancer.DeferringLoadBalancerInterceptor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [lbRestClientPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2024-04-24 07:36:03 INFO  [main] o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2024-04-24 07:36:03 INFO  [main] o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-04-24 07:36:03 INFO  [main] o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-04-24 07:36:03 INFO  [main] o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.19]
+2024-04-24 07:36:03 INFO  [main] o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-04-24 07:36:03 INFO  [main] o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2502 ms
+2024-04-24 07:36:04 INFO  [main] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-04-24 07:36:04 INFO  [main] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@25c8c71e
+2024-04-24 07:36:04 INFO  [main] com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2024-04-24 07:36:04 INFO  [main] o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-04-24 07:36:06 INFO  [main] o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-04-24 07:36:08 INFO  [main] o.s.cloud.commons.util.InetUtils - Cannot determine local hostname
+2024-04-24 07:36:08 INFO  [main] o.s.c.o.FeignClientFactoryBean - For 'main-server' URL not provided. Will try picking an instance via load-balancing.
+2024-04-24 07:36:08 INFO  [main] o.s.b.a.e.web.EndpointLinksResolver - Exposing 16 endpoint(s) beneath base path '/actuator'
+2024-04-24 07:36:09 INFO  [main] o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@1b3606e8, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@2395c168, org.springframework.security.web.context.SecurityContextHolderFilter@720da195, org.springframework.security.web.header.HeaderWriterFilter@678f685f, org.springframework.security.web.authentication.logout.LogoutFilter@573e38c, ru.timetracker.authorizationserver.security.JwtRequestFilter@24c4370a, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@4039d109, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@14a4ba91, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@28322fd3, org.springframework.security.web.session.SessionManagementFilter@5074893, org.springframework.security.web.access.ExceptionTranslationFilter@c2cc406, org.springframework.security.web.access.intercept.AuthorizationFilter@d0993f0]
+2024-04-24 07:36:10 INFO  [main] o.s.cloud.commons.util.InetUtils - Cannot determine local hostname
+2024-04-24 07:36:10 INFO  [main] o.s.c.n.e.c.DiscoveryClientOptionalArgsConfiguration - Eureka HTTP Client uses RestTemplate.
+2024-04-24 07:36:10 WARN  [main] o.s.c.l.c.LoadBalancerCacheAutoConfiguration$LoadBalancerCaffeineWarnLogger - Spring Cloud LoadBalancer is currently working with the default cache. While this cache implementation is useful for development and tests, it's recommended to use Caffeine cache in production.You can switch to using Caffeine cache, by adding it and org.springframework.cache.caffeine.CaffeineCacheManager to the classpath.
+2024-04-24 07:36:10 INFO  [main] o.s.c.n.eureka.InstanceInfoFactory - Setting initial instance status as: STARTING
+2024-04-24 07:36:10 INFO  [main] c.netflix.discovery.DiscoveryClient - Initializing Eureka in region us-east-1
+2024-04-24 07:36:11 INFO  [main] c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+2024-04-24 07:36:11 INFO  [main] c.netflix.discovery.DiscoveryClient - Disable delta property : false
+2024-04-24 07:36:11 INFO  [main] c.netflix.discovery.DiscoveryClient - Single vip registry refresh property : null
+2024-04-24 07:36:11 INFO  [main] c.netflix.discovery.DiscoveryClient - Force full registry fetch : false
+2024-04-24 07:36:11 INFO  [main] c.netflix.discovery.DiscoveryClient - Application is null : false
+2024-04-24 07:36:11 INFO  [main] c.netflix.discovery.DiscoveryClient - Registered Applications size is zero : true
+2024-04-24 07:36:11 INFO  [main] c.netflix.discovery.DiscoveryClient - Application version is -1: true
+2024-04-24 07:36:11 INFO  [main] c.netflix.discovery.DiscoveryClient - Getting all instance registry info from the eureka server
+2024-04-24 07:36:11 INFO  [main] c.netflix.discovery.DiscoveryClient - The response status is 200
+2024-04-24 07:36:11 INFO  [main] c.netflix.discovery.DiscoveryClient - Starting heartbeat executor: renew interval is: 30
+2024-04-24 07:36:11 INFO  [main] c.n.discovery.InstanceInfoReplicator - InstanceInfoReplicator onDemand update allowed rate per min is 4
+2024-04-24 07:36:11 INFO  [main] c.netflix.discovery.DiscoveryClient - Discovery Client initialized at timestamp 1713933371485 with initial instances count: 4
+2024-04-24 07:36:11 INFO  [main] o.s.c.n.e.s.EurekaServiceRegistry - Registering application AUTH-SERVER with eureka with status UP
+2024-04-24 07:36:11 INFO  [main] c.netflix.discovery.DiscoveryClient - Saw local status change event StatusChangeEvent [timestamp=1713933371498, current=UP, previous=STARTING]
+2024-04-24 07:36:11 INFO  [main] o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2024-04-24 07:36:11 INFO  [DiscoveryClient-InstanceInfoReplicator-0] c.netflix.discovery.DiscoveryClient - DiscoveryClient_AUTH-SERVER/localhost:auth-server:8080: registering service...
+2024-04-24 07:36:11 INFO  [main] o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2024-04-24 07:36:11 INFO  [main] o.s.c.n.e.s.EurekaAutoServiceRegistration - Updating port to 8080
+2024-04-24 07:36:11 INFO  [DiscoveryClient-InstanceInfoReplicator-0] c.netflix.discovery.DiscoveryClient - DiscoveryClient_AUTH-SERVER/localhost:auth-server:8080 - registration status: 204
+2024-04-24 07:36:12 INFO  [main] o.s.cloud.commons.util.InetUtils - Cannot determine local hostname
+2024-04-24 07:36:12 INFO  [RMI TCP Connection(3)-192.168.0.19] o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-04-24 07:36:12 INFO  [RMI TCP Connection(3)-192.168.0.19] o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2024-04-24 07:36:12 INFO  [RMI TCP Connection(3)-192.168.0.19] o.s.web.servlet.DispatcherServlet - Completed initialization in 11 ms
+2024-04-24 07:41:11 INFO  [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+2024-04-24 07:46:11 INFO  [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+2024-04-24 10:48:09 WARN  [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=2h58m4s394ms692µs800ns).
+2024-04-24 13:07:03 WARN  [HikariPool-1 housekeeper] com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=2h19m4s517ms215µs700ns).
+2024-04-24 13:07:09 INFO  [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+2024-04-24 13:12:09 INFO  [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+2024-04-24 13:17:09 INFO  [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+2024-04-24 13:22:09 INFO  [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+2024-04-24 13:27:09 INFO  [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+2024-04-24 13:32:09 INFO  [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+2024-04-24 13:37:09 INFO  [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
+2024-04-24 13:42:09 INFO  [AsyncResolver-bootstrap-executor-0] c.n.d.s.r.aws.ConfigClusterResolver - Resolving eureka endpoints via configuration
