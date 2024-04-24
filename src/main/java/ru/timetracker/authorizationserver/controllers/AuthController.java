@@ -56,8 +56,8 @@ public class AuthController {
                     })
     })
     @PostMapping("/login")
-    public ResponseEntity<JwtTokenDtoRes> login(@RequestBody @Valid LoginDto req){
-        JwtTokenDtoRes res = authService.login(req);
+    public ResponseEntity<RegisterUserDtoRes> login(@RequestBody @Valid LoginDto req){
+        RegisterUserDtoRes res = authService.login(req);
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(res);

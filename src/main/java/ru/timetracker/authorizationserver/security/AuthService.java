@@ -62,14 +62,18 @@ public class AuthService {
             return res;
         }
     }
-    public JwtTokenDtoRes login(LoginDto req){
+    public RegisterUserDtoRes login(LoginDto req){
         User user = userService.findByUsername(req.getUsername());
         if(!passwordEncoder.matches(req.getPassword(), user.getPassword())){
             throw new BadCredentialsExc();
         }
-        JwtTokenDtoRes res = JwtTokenDtoRes.builder()
+        JwtTokenDtoRes jwt = JwtTokenDtoRes.builder()
                 .access(JwtUtil.generateAccessToken(user))
                 .refresh(JwtUtil.generateRefreshToken(user))
+                .build();
+        RegisterUserDtoRes res = RegisterUserDtoRes.builder()
+                .user(UserDtoRes.mapFromEntity(user))
+                .jwtTokens(jwt)
                 .build();
         return res;
     }
