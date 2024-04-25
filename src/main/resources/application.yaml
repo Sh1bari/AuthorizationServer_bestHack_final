@@ -13,9 +13,9 @@ spring:
       mode: always
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/Time-tracker-auth
-    username: root
-    password: 123
+    url: jdbc:postgresql://postgresmainservice:5432/Time-tracker-auth
+    username: postgres
+    password: postgres
   jpa:
     openInView: true
     show-sql: false
