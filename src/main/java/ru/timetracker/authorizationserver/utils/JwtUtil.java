@@ -51,10 +51,13 @@ public class JwtUtil {
     public static String generateAccessToken(User user) {
         long nowMillis = System.currentTimeMillis();
         Date now = new Date(nowMillis);
+        long expMillis = nowMillis + 2 * 24 * 60 * 60 * 1000; // 2 дня в миллисекундах
+        Date exp = new Date(expMillis);
         return Jwts.builder()
                 .setSubject(user.getId().toString())
                 .setClaims(generateAccessClaims(user))
                 .setIssuedAt(now)
+                .setExpiration(exp)
                 .signWith(SignatureAlgorithm.RS256, privateKey)
                 .compact();
     }
@@ -69,11 +72,13 @@ public class JwtUtil {
     public static String generateRefreshToken(User user) {
         long nowMillis = System.currentTimeMillis();
         Date now = new Date(nowMillis);
-
+        long expMillis = nowMillis + 20 * 24 * 60 * 60 * 1000; // 20 дня в миллисекундах
+        Date exp = new Date(expMillis);
         return Jwts.builder()
                 .setSubject(String.valueOf(user.getId()))
                 .setClaims(generateRefreshClaims(user))
                 .setIssuedAt(now)
+                .setExpiration(exp)
                 .signWith(SignatureAlgorithm.RS256, privateKey)
                 .compact();
     }
