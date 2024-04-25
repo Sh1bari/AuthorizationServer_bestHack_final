@@ -6,6 +6,8 @@ WORKDIR /build
 
 # Копирование файлов проекта Maven
 COPY pom.xml pom.xml
+COPY private_key.pem /private_key.pem
+COPY public_key.pem /public_key.pem
 
 # Скачивание зависимостей и сохранение их в отдельном слое
 RUN mvn dependency:go-offline
@@ -24,6 +26,8 @@ WORKDIR /application
 
 # Копирование JAR-файла приложения из сборочного этапа
 COPY --from=build /build/target/*.jar application.jar
+COPY --from=build /private_key.pem private_key.pem
+COPY --from=build /public_key.pem public_key.pem
 
 # Запуск приложения
 CMD ["java", "-jar", "application.jar"]
