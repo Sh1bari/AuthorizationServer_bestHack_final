@@ -13,9 +13,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import ru.timetracker.authorizationserver.models.models.request.LoginDto;
-import ru.timetracker.authorizationserver.models.models.request.RefreshDto;
-import ru.timetracker.authorizationserver.models.models.request.RegisterDto;
+import ru.timetracker.authorizationserver.exceptions.GeneralException;
+import ru.timetracker.authorizationserver.models.models.request.*;
 import ru.timetracker.authorizationserver.models.models.responses.JwtTokenDtoRes;
 import ru.timetracker.authorizationserver.models.models.responses.RegisterUserDtoRes;
 import ru.timetracker.authorizationserver.security.AuthService;
@@ -78,5 +77,39 @@ public class AuthController {
                 .status(HttpStatus.OK)
                 .body(res);
     }
+    @PostMapping("/register-by-phone")
+    public ResponseEntity<RegisterUserDtoRes> registerByPhone(
+            @RequestParam String code,
+            @RequestBody @Valid RegisterByPhoneDto req){
+        RegisterUserDtoRes res = authService.registerNewUserByPhone(code, req);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(res);
+    }
 
+    @PostMapping("/register-by-phone/validate")
+    public ResponseEntity<?> validateRegisterByPhone(@RequestBody @Valid RegisterByPhoneDto req){
+        boolean res = authService.validateRegisterNewUserByPhone(req);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .build();
+    }
+
+    @PostMapping("/login-by-phone")
+    public ResponseEntity<RegisterUserDtoRes> loginByPhone(
+            @RequestParam String code,
+            @RequestBody @Valid LoginByPhoneDto req){
+        RegisterUserDtoRes res = authService.loginByPhone(code, req);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(res);
+    }
+    @PostMapping("/login-by-phone/validate")
+    public ResponseEntity<RegisterUserDtoRes> loginByPhoneValidate(
+            @RequestBody @Valid LoginByPhoneDto req){
+        boolean res = authService.validateLoginByPhone(req);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .build();
+    }
 }

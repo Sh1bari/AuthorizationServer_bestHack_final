@@ -13,9 +13,9 @@ spring:
       mode: always
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://postgresauthservice:5432/Time-tracker-auth
-    username: postgres
-    password: postgres
+    url: jdbc:postgresql://${POSTGRES_ADDRESS:localhost}:5432/auth-final
+    username: ${POSTGRES_USERNAME:root}
+    password: ${POSTGRES_PASSWORD:123}
   jpa:
     openInView: true
     show-sql: false
@@ -33,7 +33,7 @@ eureka:
     prefer-ip-address: true
   client:
     serviceUrl:
-      defaultZone: http://eureka:8761/eureka
+      defaultZone: http://${EUREKA_ADDRESS:localhost}:8761/eureka
       instance:
         preferIpAddress: true
 management:
