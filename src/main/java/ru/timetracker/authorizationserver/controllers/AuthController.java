@@ -77,6 +77,14 @@ public class AuthController {
                 .status(HttpStatus.OK)
                 .body(res);
     }
+    @Operation(summary = "Register user by phone number")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = JwtTokenDtoRes.class))
+                    })
+    })
     @PostMapping("/register-by-phone")
     public ResponseEntity<RegisterUserDtoRes> registerByPhone(
             @RequestParam String code,
@@ -87,6 +95,14 @@ public class AuthController {
                 .body(res);
     }
 
+    @Operation(summary = "Validate registration data")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = JwtTokenDtoRes.class))
+                    })
+    })
     @PostMapping("/register-by-phone/validate")
     public ResponseEntity<?> validateRegisterByPhone(@RequestBody @Valid RegisterByPhoneDto req){
         boolean res = authService.validateRegisterNewUserByPhone(req);
@@ -95,6 +111,14 @@ public class AuthController {
                 .build();
     }
 
+    @Operation(summary = "Login by phone")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = JwtTokenDtoRes.class))
+                    })
+    })
     @PostMapping("/login-by-phone")
     public ResponseEntity<RegisterUserDtoRes> loginByPhone(
             @RequestParam String code,
@@ -104,6 +128,14 @@ public class AuthController {
                 .status(HttpStatus.OK)
                 .body(res);
     }
+    @Operation(summary = "Validate login data")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = JwtTokenDtoRes.class))
+                    })
+    })
     @PostMapping("/login-by-phone/validate")
     public ResponseEntity<RegisterUserDtoRes> loginByPhoneValidate(
             @RequestBody @Valid LoginByPhoneDto req){
