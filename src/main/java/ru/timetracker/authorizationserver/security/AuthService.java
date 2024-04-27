@@ -130,13 +130,14 @@ public class AuthService {
                     .username(req.getUsername())
                     .phoneNumber(req.getPhoneNumber())
                     .build());
-            /*mainClient.registerNewUser(CreateUserDto.builder()
+            mainClient.registerNewUser(CreateUserDto.builder()
                     .username(req.getUsername())
+                    .phoneNumber(req.getPhoneNumber())
                     .userId(user.getId())
                     .name(req.getName())
                     .middleName(req.getMiddleName())
                     .surname(req.getSurname())
-                    .build());*/
+                    .build());
             JwtTokenDtoRes jwt = JwtTokenDtoRes.builder()
                     .access(JwtUtil.generateAccessToken(user))
                     .refresh(JwtUtil.generateRefreshToken(user))
