@@ -15,5 +15,6 @@ public class RegisterByPhoneDto {
     private String middleName;
     private String surname;
     @Pattern(regexp = "^\\+?[0-9]{1,15}$", message = "Incorrect phone number")
+    @NotBlank(message = "phoneNumber cant be blank")
     private String phoneNumber;
 }
