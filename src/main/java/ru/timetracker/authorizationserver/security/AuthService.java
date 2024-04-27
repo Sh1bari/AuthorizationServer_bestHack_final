@@ -12,10 +12,7 @@ import ru.timetracker.authorizationserver.exceptions.WrongTokenExc;
 import ru.timetracker.authorizationserver.exceptions.auth.BadCredentialsExc;
 import ru.timetracker.authorizationserver.feign.MainClient;
 import ru.timetracker.authorizationserver.models.entities.User;
-import ru.timetracker.authorizationserver.models.models.request.CreateUserDto;
-import ru.timetracker.authorizationserver.models.models.request.LoginDto;
-import ru.timetracker.authorizationserver.models.models.request.RefreshDto;
-import ru.timetracker.authorizationserver.models.models.request.RegisterDto;
+import ru.timetracker.authorizationserver.models.models.request.*;
 import ru.timetracker.authorizationserver.models.models.responses.JwtTokenDtoRes;
 import ru.timetracker.authorizationserver.models.models.responses.RegisterUserDtoRes;
 import ru.timetracker.authorizationserver.models.models.responses.UserDtoRes;
@@ -34,6 +31,7 @@ public class AuthService {
     private final RoleService roleService;
     private final PasswordEncoder passwordEncoder;
     private final MainClient mainClient;
+    String validCode = "1655";
     @Transactional
     public RegisterUserDtoRes registerNewUser(RegisterDto req){
         if(userService.existsByUsername(req.getUsername())){
@@ -81,6 +79,30 @@ public class AuthService {
         return res;
     }
 
+    public RegisterUserDtoRes loginByPhone(String code, LoginByPhoneDto req){
+        if(!userService.existsByPhoneNumber(req.getPhone())){
+            throw new GeneralException(409, "Phone number exists");
+        }else if(!validCode.equals(code)) {
+            throw new GeneralException(409, "Wrong code");
+        }
+        User user = userService.findByPhoneNumber(req.getPhone());
+        JwtTokenDtoRes jwt = JwtTokenDtoRes.builder()
+                .access(JwtUtil.generateAccessToken(user))
+                .refresh(JwtUtil.generateRefreshToken(user))
+                .build();
+        RegisterUserDtoRes res = RegisterUserDtoRes.builder()
+                .user(UserDtoRes.mapFromEntity(user))
+                .jwtTokens(jwt)
+                .build();
+        return res;
+    }
+    public boolean validateLoginByPhone(LoginByPhoneDto req){
+        if(!userService.existsByPhoneNumber(req.getPhone())){
+            throw new GeneralException(409, "Phone number exists");
+        }
+        return true;
+    }
+
     public JwtTokenDtoRes refresh(RefreshDto req){
         Jws<Claims> claims = JwtUtil.getClaims(req.getRefresh());
         if(!claims.getBody().get("tokenType").toString().equals("refresh")){
@@ -94,5 +116,46 @@ public class AuthService {
                 .build();
         return res;
     }
-
+    @Transactional
+    public RegisterUserDtoRes registerNewUserByPhone(String code, RegisterByPhoneDto req) {
+        if (userService.existsByUsername(req.getUsername())) {
+            throw new GeneralException(409, String.format("User with username %s exists", req.getUsername()));
+        } else if (userService.existsByPhoneNumber(req.getPhoneNumber())) {
+            throw new GeneralException(409, "Phone number exists");
+        } else if (!validCode.equals(code)) {
+            throw new GeneralException(409, "Wrong code");
+        } else {
+            User user = userService.saveUser(User.builder()
+                    .roles(List.of(roleService.getUserRole()))
+                    .username(req.getUsername())
+                    .phoneNumber(req.getPhoneNumber())
+                    .build());
+            /*mainClient.registerNewUser(CreateUserDto.builder()
+                    .username(req.getUsername())
+                    .userId(user.getId())
+                    .name(req.getName())
+                    .middleName(req.getMiddleName())
+                    .surname(req.getSurname())
+                    .build());*/
+            JwtTokenDtoRes jwt = JwtTokenDtoRes.builder()
+                    .access(JwtUtil.generateAccessToken(user))
+                    .refresh(JwtUtil.generateRefreshToken(user))
+                    .build();
+            RegisterUserDtoRes res = RegisterUserDtoRes.builder()
+                    .user(UserDtoRes.mapFromEntity(user))
+                    .jwtTokens(jwt)
+                    .build();
+            return res;
+        }
+    }
+    @Transactional
+    public boolean validateRegisterNewUserByPhone(RegisterByPhoneDto req){
+        if(userService.existsByUsername(req.getUsername())){
+            throw new GeneralException(409, String.format("User with username %s exists", req.getUsername()));
+        }else if(userService.existsByPhoneNumber(req.getPhoneNumber())) {
+            throw new GeneralException(409, "Phone number exists");
+        }else{
+            return true;
+        }
+    }
 }

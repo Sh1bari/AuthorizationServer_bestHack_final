@@ -25,10 +25,10 @@ public class User {
     @Column(unique = true)
     private String mail;
 
-    @Column(nullable = false, unique = true)
+    @Column(unique = true)
     private String username;
 
-    @Column(nullable = false)
+    @Column
     private String password;
 
     @ManyToMany
@@ -38,5 +38,8 @@ public class User {
 
     @Enumerated(EnumType.STRING)
     private UserStatus status = UserStatus.ACTIVE;
+
+    @Column(unique = true)
+    private String phoneNumber;
 
 }

@@ -16,8 +16,13 @@ public class UserService {
     public boolean existsByUsername(String username){
         return userRepo.existsByUsername(username);
     }
+    public boolean existsByPhoneNumber(String phone){return userRepo.existsByPhoneNumber(phone);}
     public User findByUsername(String username){
         return userRepo.findByUsername(username)
+                .orElseThrow(UserNotFoundExc::new);
+    }
+    public User findByPhoneNumber(String phone){
+        return userRepo.findByPhoneNumber(phone)
                 .orElseThrow(UserNotFoundExc::new);
     }
 
