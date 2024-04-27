@@ -18,7 +18,7 @@ import org.springframework.context.annotation.Configuration;
         ),
         servers = {
                 @Server(
-                        url = "http://62.217.182.34:8111",
+                        url = "https://my-timecheck.ru",
                         description = "Main server"
                 ),
                 @Server(
