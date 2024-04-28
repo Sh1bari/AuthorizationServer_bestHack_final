@@ -116,7 +116,7 @@ public class AuthService {
                 .build();
         return res;
     }
-    @Transactional
+
     public RegisterUserDtoRes registerNewUserByPhone(String code, RegisterByPhoneDto req) {
         if (userService.existsByUsername(req.getUsername())) {
             throw new GeneralException(409, "Такой пользователь уже существует");
@@ -149,7 +149,6 @@ public class AuthService {
             return res;
         }
     }
-    @Transactional
     public boolean validateRegisterNewUserByPhone(RegisterByPhoneDto req){
         if(userService.existsByUsername(req.getUsername())){
             throw new GeneralException(409, "Такой пользователь уже существует");

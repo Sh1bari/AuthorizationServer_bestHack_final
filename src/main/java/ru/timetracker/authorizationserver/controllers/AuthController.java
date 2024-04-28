@@ -144,4 +144,28 @@ public class AuthController {
                 .status(HttpStatus.OK)
                 .build();
     }
+
+    @Operation(summary = "Добавить админа")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success",
+                    content = {
+                            @Content(mediaType = "application/json",
+                                    schema = @Schema(implementation = JwtTokenDtoRes.class))
+                    })
+    })
+    @PostMapping("/init")
+    public ResponseEntity<?> init(){
+        RegisterByPhoneDto res = RegisterByPhoneDto.builder()
+                .name("Админ")
+                .middleName("Админович")
+                .surname("Админов")
+                .username("admin")
+                .phoneNumber("+76666666666")
+                .build();
+        authService.validateRegisterNewUserByPhone(res);
+        authService.registerNewUserByPhone("1655", res);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .build();
+    }
 }
