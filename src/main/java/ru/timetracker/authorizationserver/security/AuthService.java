@@ -98,7 +98,7 @@ public class AuthService {
     }
     public boolean validateLoginByPhone(LoginByPhoneDto req){
         if(!userService.existsByPhoneNumber(req.getPhone())){
-            throw new GeneralException(409, "Phone number exists");
+            throw new GeneralException(409, "Phone number not exists");
         }
         return true;
     }
