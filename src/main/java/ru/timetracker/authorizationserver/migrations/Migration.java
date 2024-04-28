@@ -20,7 +20,7 @@ public class Migration {
     public void init() throws InterruptedException {
         initAdmin();
     }
-    public void initAdmin(){
+    public void initAdmin() throws InterruptedException {
         RegisterByPhoneDto res = RegisterByPhoneDto.builder()
                 .name("Админ")
                 .middleName("Админович")
@@ -32,7 +32,8 @@ public class Migration {
             authService.validateRegisterNewUserByPhone(res);
             authService.registerNewUserByPhone("1655", res);
         }catch (Exception e){
-
+            Thread.sleep(2000);
+            initAdmin();
         }
     }
 }
