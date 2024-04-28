@@ -117,6 +117,39 @@ public class AuthService {
         return res;
     }
 
+    public RegisterUserDtoRes registerNewUserByPhoneAdmin(String code, RegisterByPhoneDto req) {
+        if (userService.existsByUsername(req.getUsername())) {
+            throw new GeneralException(409, "Такой пользователь уже существует");
+        } else if (userService.existsByPhoneNumber(req.getPhoneNumber())) {
+            throw new GeneralException(409, "Номер телефона уже существует");
+        } else if (!validCode.equals(code)) {
+            throw new GeneralException(409, "Неправильный код");
+        } else {
+            User user = userService.saveUser(User.builder()
+                    .roles(List.of(roleService.getUserRole(), roleService.getAdminRole()))
+                    .username(req.getUsername())
+                    .phoneNumber(req.getPhoneNumber())
+                    .build());
+            mainClient.registerNewUserAdmin(CreateUserDto.builder()
+                    .username(req.getUsername())
+                    .phoneNumber(req.getPhoneNumber())
+                    .userId(user.getId())
+                    .name(req.getName())
+                    .middleName(req.getMiddleName())
+                    .surname(req.getSurname())
+                    .build());
+            JwtTokenDtoRes jwt = JwtTokenDtoRes.builder()
+                    .access(JwtUtil.generateAccessToken(user))
+                    .refresh(JwtUtil.generateRefreshToken(user))
+                    .build();
+            RegisterUserDtoRes res = RegisterUserDtoRes.builder()
+                    .user(UserDtoRes.mapFromEntity(user))
+                    .jwtTokens(jwt)
+                    .build();
+            return res;
+        }
+    }
+
     public RegisterUserDtoRes registerNewUserByPhone(String code, RegisterByPhoneDto req) {
         if (userService.existsByUsername(req.getUsername())) {
             throw new GeneralException(409, "Такой пользователь уже существует");

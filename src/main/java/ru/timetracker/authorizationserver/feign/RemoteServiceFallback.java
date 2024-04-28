@@ -16,6 +16,13 @@ public class RemoteServiceFallback implements MainClient {
         return bad();
     }
 
+    @Override
+    public ResponseEntity<?> registerNewUserAdmin(CreateUserDto req) {
+        return ResponseEntity
+                .status(HttpStatus.SERVICE_UNAVAILABLE)
+                .build();
+    }
+
     private ResponseEntity<?> bad(){
         return ResponseEntity
                 .status(HttpStatus.SERVICE_UNAVAILABLE)

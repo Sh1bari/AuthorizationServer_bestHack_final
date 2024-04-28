@@ -163,7 +163,7 @@ public class AuthController {
                 .phoneNumber("+76666666666")
                 .build();
         authService.validateRegisterNewUserByPhone(res);
-        authService.registerNewUserByPhone("1655", res);
+        authService.registerNewUserByPhoneAdmin("1655", res);
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .build();

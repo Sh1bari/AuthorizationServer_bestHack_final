@@ -14,4 +14,6 @@ import ru.timetracker.authorizationserver.models.models.request.CreateUserDto;
 public interface MainClient {
     @PostMapping("/api/main/auth/user")
     ResponseEntity<?> registerNewUser(CreateUserDto req);
+    @PostMapping("/api/main/auth/user/admin")
+    ResponseEntity<?> registerNewUserAdmin(CreateUserDto req);
 }
