@@ -81,7 +81,7 @@ public class AuthService {
 
     public RegisterUserDtoRes loginByPhone(String code, LoginByPhoneDto req){
         if(!userService.existsByPhoneNumber(req.getPhone())){
-            throw new GeneralException(409, "Phone number exists");
+            throw new GeneralException(409, "Phone number not exists");
         }else if(!validCode.equals(code)) {
             throw new GeneralException(409, "Wrong code");
         }
