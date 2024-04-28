@@ -126,7 +126,7 @@ public class AuthService {
             throw new GeneralException(409, "Неправильный код");
         } else {
             User user = userService.saveUser(User.builder()
-                    .roles(List.of(roleService.getUserRole(), roleService.getAdminRole()))
+                    .roles(List.of(roleService.getUserRole()))
                     .username(req.getUsername())
                     .phoneNumber(req.getPhoneNumber())
                     .build());
