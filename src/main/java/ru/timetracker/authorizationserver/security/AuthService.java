@@ -81,9 +81,9 @@ public class AuthService {
 
     public RegisterUserDtoRes loginByPhone(String code, LoginByPhoneDto req){
         if(!userService.existsByPhoneNumber(req.getPhone())){
-            throw new GeneralException(409, "Phone number not exists");
+            throw new GeneralException(409, "Номер телефона не существует");
         }else if(!validCode.equals(code)) {
-            throw new GeneralException(409, "Wrong code");
+            throw new GeneralException(409, "Неправильный код");
         }
         User user = userService.findByPhoneNumber(req.getPhone());
         JwtTokenDtoRes jwt = JwtTokenDtoRes.builder()
@@ -98,7 +98,7 @@ public class AuthService {
     }
     public boolean validateLoginByPhone(LoginByPhoneDto req){
         if(!userService.existsByPhoneNumber(req.getPhone())){
-            throw new GeneralException(409, "Phone number not exists");
+            throw new GeneralException(409, "Номер телефона не существует");
         }
         return true;
     }
@@ -119,11 +119,11 @@ public class AuthService {
     @Transactional
     public RegisterUserDtoRes registerNewUserByPhone(String code, RegisterByPhoneDto req) {
         if (userService.existsByUsername(req.getUsername())) {
-            throw new GeneralException(409, String.format("User with username %s exists", req.getUsername()));
+            throw new GeneralException(409, "Такой пользователь уже существует");
         } else if (userService.existsByPhoneNumber(req.getPhoneNumber())) {
-            throw new GeneralException(409, "Phone number exists");
+            throw new GeneralException(409, "Номер телефона уже существует");
         } else if (!validCode.equals(code)) {
-            throw new GeneralException(409, "Wrong code");
+            throw new GeneralException(409, "Неправильный код");
         } else {
             User user = userService.saveUser(User.builder()
                     .roles(List.of(roleService.getUserRole()))
@@ -152,9 +152,9 @@ public class AuthService {
     @Transactional
     public boolean validateRegisterNewUserByPhone(RegisterByPhoneDto req){
         if(userService.existsByUsername(req.getUsername())){
-            throw new GeneralException(409, String.format("User with username %s exists", req.getUsername()));
+            throw new GeneralException(409, "Такой пользователь уже существует");
         }else if(userService.existsByPhoneNumber(req.getPhoneNumber())) {
-            throw new GeneralException(409, "Phone number exists");
+            throw new GeneralException(409, "Номер телефона уже существует");
         }else{
             return true;
         }
